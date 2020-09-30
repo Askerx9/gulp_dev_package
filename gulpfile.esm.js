@@ -32,7 +32,7 @@ function javascript() {
 }
 
 function scss() {
-    return src(DEV_FOLDER + '**/app.scss')
+    return src(DEV_FOLDER + '/scss/app.scss')
         .pipe(sourcemaps.init() )
         .pipe(sass().on('error', sass.logError))
         .pipe(gulpif(ENV === "production", autoprefixer()))
@@ -43,7 +43,7 @@ function scss() {
             },
             ignoreFiles: ['-min.css']
         }))
-        .pipe(dest(PROD_FOLDER + "css/"))
+        .pipe(dest(PROD_FOLDER + "/css"))
         .pipe(gulpif(ENV !== "production", browserSync.stream()));
 }
 
@@ -70,8 +70,11 @@ function dev() {
 function sync() {
     browserSync.init({
         server: {
-            baseDir: PROD_FOLDER
-        }
+            baseDir: PROD_FOLDER,
+            index: 'index.html'
+        },
+        notify: false,
+        injectChanges: true
     });
 }
 
