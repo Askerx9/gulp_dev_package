@@ -1,0 +1,32 @@
+{
+  "name": "gulp_perso",
+  "version": "1.0.0",
+  "description": "Front-end package dev",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "NODE_ENV=dev gulp",
+    "build": "NODE_ENV=production gulp build",
+    "clear": "gulp clear",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["front-end", "dev", "package", "gulp"],
+  "author": "Digital Whale <morrensj@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.26.12",
+    "delete": "^1.1.0",
+    "esm": "^3.2.25",
+    "gulp": "^4.0.2",
+    "gulp-autoprefixer": "^7.0.1",
+    "gulp-if": "^3.0.0",
+    "gulp-imagemin": "^7.1.0",
+    "gulp-minify": "^3.1.0",
+    "gulp-sass": "^4.1.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "node-sass": "^4.14.1",
+    "webpack": "^4.44.1",
+    "webpack-stream": "^6.1.0"
+  },
+  "dependencies": {}
+}
