@@ -54,17 +54,31 @@ function assets() {
         .pipe(gulpif(ENV !== "production", browserSync.stream()));
 }
 
+function video() {
+    return src(DEV_FOLDER + '/videos/*')
+        .pipe(dest(PROD_FOLDER + '/videos/'))
+        .pipe(gulpif(ENV !== "production", browserSync.stream()));
+}
+
+function fonts() {
+    return src(DEV_FOLDER + '/fonts/*')
+        .pipe(dest(PROD_FOLDER + '/fonts/'))
+        .pipe(gulpif(ENV !== "production", browserSync.stream()));
+}
+
 function html() {
-    return src(DEV_FOLDER + '**/*.html')
+    return src(DEV_FOLDER + '**/*.+(html|php)')
         .pipe(dest(PROD_FOLDER))
         .pipe(gulpif(ENV !== "production", browserSync.stream()));
 }
 
 function dev() {
-    watch(DEV_FOLDER+'**/*.html', { ignoreInitial: false }, html)
+    watch(DEV_FOLDER+'**/*.+(html|php)', { ignoreInitial: false }, html)
     watch(DEV_FOLDER +'**/*.scss', { ignoreInitial: false }, scss);
     watch(DEV_FOLDER +'**/*.js', { ignoreInitial: false }, javascript);
     watch(DEV_FOLDER +'/images/*', { ignoreInitial: false }, assets);
+    watch(DEV_FOLDER +'/videos/*', { ignoreInitial: false }, video);
+    watch(DEV_FOLDER +'/fonts/*', { ignoreInitial: false }, fonts);
 }
 
 function sync() {
@@ -73,11 +87,13 @@ function sync() {
             baseDir: PROD_FOLDER,
             index: 'index.html'
         },
+        port: 8080,
+        open: false,
         notify: false,
         injectChanges: true
     });
 }
 
-exports.default = parallel(series(assets, dev), sync)
+exports.default = parallel(series(assets,fonts, video, dev), sync)
 exports.clear = clear
-exports.build = series(clear, html, scss, javascript, assets)
+exports.build = series(clear, html, scss, javascript, assets, fonts, video)
