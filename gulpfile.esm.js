@@ -48,7 +48,7 @@ function scss() {
 }
 
 function assets() {
-    return src(DEV_FOLDER + '/images/*')
+    return src(DEV_FOLDER + '/images/*.+(png|jpg|jpeg|svg)')
         .pipe(imagemin())
         .pipe(dest(PROD_FOLDER + '/images/'))
         .pipe(gulpif(ENV !== "production", browserSync.stream()));
@@ -72,13 +72,10 @@ function html() {
         .pipe(gulpif(ENV !== "production", browserSync.stream()));
 }
 
-function dev() {
+function watch() {
     watch(DEV_FOLDER+'**/*.+(html|php)', { ignoreInitial: false }, html)
     watch(DEV_FOLDER +'**/*.scss', { ignoreInitial: false }, scss);
     watch(DEV_FOLDER +'**/*.js', { ignoreInitial: false }, javascript);
-    watch(DEV_FOLDER +'/images/*', { ignoreInitial: false }, assets);
-    watch(DEV_FOLDER +'/videos/*', { ignoreInitial: false }, video);
-    watch(DEV_FOLDER +'/fonts/*', { ignoreInitial: false }, fonts);
 }
 
 function sync() {
@@ -94,6 +91,6 @@ function sync() {
     });
 }
 
-exports.default = parallel(series(assets,fonts, video, dev), sync)
+exports.default = parallel(series(assets,fonts, video, watch), sync)
 exports.clear = clear
 exports.build = series(clear, html, scss, javascript, assets, fonts, video)
